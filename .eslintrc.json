@@ -2,14 +2,15 @@
   "env": {
     "commonjs": true,
     "es2021": true,
-    "node": true
+    "node": true,
+    "jest/globals": true
   },
   "extends": ["standard", "eslint-config-prettier"],
   "parserOptions": {
     "ecmaVersion": 12
   },
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": ["error"]
   },
-  "plugins": ["eslint-plugin-prettier"]
+  "plugins": ["eslint-plugin-prettier", "jest"]
 }
