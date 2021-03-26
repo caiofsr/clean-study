@@ -1,0 +1,8 @@
+{
+  "name": "clean-study",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:caiofsr/clean-study.git",
+  "author": "Caio Fernando <caiofsr13@gmail.com>",
+  "license": "MIT"
+}
