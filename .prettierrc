@@ -4,7 +4,7 @@
   "singleQuote": true,
   "useTabs": false,
   "quoteProps": "consistent",
-  "bracketSpacing": true,
+  "bracketSpacing": false,
   "arrowParens": "avoid",
   "printWidth": 100
 }
