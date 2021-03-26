@@ -10,12 +10,14 @@
   "license": "MIT",
   "lint-staged": {
     "*.js": [
-      "eslint --fix"
+      "eslint --fix",
+      "yarn test:staged"
     ]
   },
   "scripts": {
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest --watchAll",
+    "test:staged": "jest"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
