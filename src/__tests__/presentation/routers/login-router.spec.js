@@ -1,18 +1,32 @@
 const LoginRouter = require('../../../presentation/routers/login-router')
-const MissingParamError = require('../../../presentation/helpers/missing-param-error')
-const UnauthorizedError = require('../../../presentation/helpers/unauthorized-error')
 const ServerError = require('../../../presentation/helpers/server-error')
+const UnauthorizedError = require('../../../presentation/helpers/unauthorized-error')
+const MissingParamError = require('../../../presentation/helpers/missing-param-error')
+const InvalidParamError = require('../../../presentation/helpers/invalid-param-error')
 
 const makeSut = () => {
   const authUseCaseSpy = makeAuthUseCase()
-  authUseCaseSpy.accessToken = 'valid_token'
-
-  const sut = new LoginRouter(authUseCaseSpy)
+  const emailValidatorSpy = makeEmailValidator()
+  const sut = new LoginRouter(authUseCaseSpy, emailValidatorSpy)
 
   return {
     sut,
     authUseCaseSpy,
+    emailValidatorSpy,
   }
+}
+
+const makeEmailValidator = () => {
+  class EmailValidatorSpy {
+    isValid(email) {
+      return this.isEmailValid
+    }
+  }
+
+  const emailValidatorSpy = new EmailValidatorSpy()
+  emailValidatorSpy.isEmailValid = true
+
+  return emailValidatorSpy
 }
 
 const makeAuthUseCase = () => {
@@ -25,7 +39,9 @@ const makeAuthUseCase = () => {
     }
   }
 
-  return new AuthUseCaseSpy()
+  const authUseCaseSpy = new AuthUseCaseSpy()
+  authUseCaseSpy.accessToken = 'valid_token'
+  return authUseCaseSpy
 }
 
 const makeAuthUseCaseWithError = () => {
@@ -173,5 +189,23 @@ describe('Login Router', () => {
 
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
+  })
+
+  test('should return 400 if an invalid email was provided', () => {
+    const { sut, emailValidatorSpy } = makeSut()
+
+    emailValidatorSpy.isEmailValid = false
+
+    const httpRequest = {
+      body: {
+        email: 'invalid_email@mail.com',
+        password: 'password',
+      },
+    }
+
+    const httpResponse = sut.route(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
 })
