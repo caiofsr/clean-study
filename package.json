@@ -17,7 +17,8 @@
   "scripts": {
     "prepare": "husky install",
     "test": "jest --watch --silent --noStackTrace",
-    "test:staged": "jest --passWithNoTests --findRelatedTests --silent"
+    "test:staged": "jest --passWithNoTests --findRelatedTests --silent --noStackTrace",
+    "test:ci": "jest --coverage"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
