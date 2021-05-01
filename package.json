@@ -16,9 +16,10 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "test": "jest --watch --silent --noStackTrace",
-    "test:staged": "jest --passWithNoTests --findRelatedTests --silent --noStackTrace",
-    "test:ci": "jest --coverage  --noStackTrace --silent"
+    "test": "jest --silent --colors --noStackTrace",
+    "test:unit": "yarn test -- --watch",
+    "test:staged": "yarn test -- --passWithNoTests --findRelatedTests",
+    "test:ci": "yarn test -- --coverage"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
