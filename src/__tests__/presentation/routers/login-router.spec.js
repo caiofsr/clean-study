@@ -1,8 +1,10 @@
 const LoginRouter = require('../../../presentation/routers/login-router')
-const ServerError = require('../../../presentation/helpers/server-error')
-const UnauthorizedError = require('../../../presentation/helpers/unauthorized-error')
-const MissingParamError = require('../../../presentation/helpers/missing-param-error')
-const InvalidParamError = require('../../../presentation/helpers/invalid-param-error')
+const {
+  MissingParam,
+  ServerError,
+  Unauthorized,
+  InvalidParam,
+} = require('../../../presentation/errors')
 
 const makeSut = () => {
   const authUseCaseSpy = makeAuthUseCase()
@@ -67,6 +69,7 @@ const makeEmailValidatorWithError = () => {
 
 describe('Login Router', () => {
   test('should return 400 if email was not provided', () => {
+    console.log(MissingParam)
     const { sut } = makeSut()
 
     const httpRequest = {
@@ -78,7 +81,7 @@ describe('Login Router', () => {
     const httpResponse = sut.route(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('email'))
+    expect(httpResponse.body).toEqual(new MissingParam('email'))
   })
 
   test('should return 400 if password was not provided', () => {
@@ -93,7 +96,7 @@ describe('Login Router', () => {
     const httpResponse = sut.route(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('password'))
+    expect(httpResponse.body).toEqual(new MissingParam('password'))
   })
 
   test('should return 500 if httpRequest was not provided', () => {
@@ -142,7 +145,7 @@ describe('Login Router', () => {
 
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(401)
-    expect(httpResponse.body).toEqual(new UnauthorizedError('email'))
+    expect(httpResponse.body).toEqual(new Unauthorized('email'))
   })
 
   test('should return 200 when valid credentials are provided', () => {
@@ -217,7 +220,7 @@ describe('Login Router', () => {
     const httpResponse = sut.route(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('email'))
+    expect(httpResponse.body).toEqual(new InvalidParam('email'))
   })
 
   test('should return 500 if no EmailValidator was provided', () => {
