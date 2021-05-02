@@ -1,4 +1,4 @@
-const LoginRouter = require('../../../presentation/routers/login-router')
+const LoginRouter = require('../../../presentation/routers/loginRouter')
 const {
   MissingParam,
   ServerError,
