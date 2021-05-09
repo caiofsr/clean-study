@@ -1,5 +1,5 @@
-const AuthUseCase = require('../../../src/domain/usecases/AuthUseCase')
 const { MissingParam } = require('../../../src/utils/errors')
+const AuthUseCase = require('../../../src/domain/usecases/AuthUseCase')
 
 const makeEncrypter = () => {
   class EncrypterSpy {
@@ -138,5 +138,14 @@ describe('Auth Use Case', () => {
     await sut.auth('valid_email@mail.com', 'valid_password')
 
     expect(tokenGeneratorSpy.userId).toBe(loadUserByEmailRepositorySpy.user.id)
+  })
+
+  test('Should return an accessToken if correct credentials was provided', async () => {
+    const { sut, tokenGeneratorSpy } = makeSut()
+
+    const accessToken = await sut.auth('valid_email@mail.com', 'valid_password')
+
+    expect(accessToken).toBeTruthy()
+    expect(accessToken).toBe(tokenGeneratorSpy.accessToken)
   })
 })
