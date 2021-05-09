@@ -65,7 +65,6 @@ const makeEmailValidatorWithError = () => {
 
 describe('Login Router', () => {
   test('should return 400 if email was not provided', () => {
-    console.log(MissingParam)
     const { sut } = makeSut()
 
     const httpRequest = {
